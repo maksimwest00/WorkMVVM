@@ -1,0 +1,49 @@
+﻿<Window x:Class="WorkMVVM.EditDepartmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkMVVM"
+        mc:Ignorable="d"
+        Title="EditDepartmentWindow"        
+        Width="Auto"
+        Height="Auto"
+        WindowStartupLocation="CenterOwner">
+    <Window.DataContext>
+        <local:EditDepartmentViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Выберите отдел для редактирования"/>
+            <ListBox ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding SelectedDepartment.Name, StringFormat='Текущее название: {0}'}"/>
+            <TextBox Text="{Binding NewDepartmentName, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding NewDepartmentName, StringFormat='Новое название: {0}'}"/>
+            <TextBlock Text="Выберите сотрудника для редактирования"/>
+            <ListBox ItemsSource="{Binding SelectedDepartment.Employes}" SelectedItem="{Binding SelectedEmployee}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding FirstName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="Введите новые данные сотрудника"/>
+            <TextBox Text="{Binding NewFirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding NewLastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding NewPosition, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding NewSalary, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Content="Сохранить изменения" Command="{Binding SaveChanges}"/>
+        </StackPanel>
+    </Grid>
+</Window>

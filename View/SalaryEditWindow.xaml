@@ -1,0 +1,33 @@
+﻿<Window x:Class="WorkMVVM.SalaryEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkMVVM"
+        mc:Ignorable="d"
+        Title="Окно редактирования зарплаты" 
+        Height="250" 
+        Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Window.DataContext>
+        <local:SalaryEditViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Выберите работника для изменения зарплаты"/>
+            <ListBox ItemsSource="{Binding CurrentEmployees}" SelectedItem="{Binding SelectedEmployee}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding FirstName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding SelectedEmployee.Salary, StringFormat='Текущая зарплата: {0}'}"/>
+            <TextBox Text="{Binding NewSalary, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBlock Text="{Binding NewSalary, StringFormat='Новая зарплата: {0}'}"/>
+            <Button Content="Изменить зарплату" Command="{Binding UpdateSalary}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

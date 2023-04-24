@@ -1,0 +1,33 @@
+﻿<Window x:Class="WorkMVVM.DepartmentEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkMVVM"
+        mc:Ignorable="d"
+        Title="Окно редактирования должности"
+        Height="250" 
+        Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Window.DataContext>
+        <local:DepartmentEditViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Выберите работника для изменения должности"/>
+            <ListBox ItemsSource="{Binding CurrentEmployees}" SelectedItem="{Binding SelectedEmployee}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding FirstName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding SelectedEmployee.Department.Name, StringFormat='Текущая должность: {0}'}"/>
+            <TextBox Text="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBlock Text="{Binding NewDepartment, StringFormat='Новая должность: {0}'}"/>
+            <Button Content="Изменить должность" Command="{Binding UpdateDepartment}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
