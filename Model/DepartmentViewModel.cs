@@ -4,7 +4,7 @@ namespace WorkMVVM
 {
     public class DepartmentViewModel : BaseViewModel
     {
-        private string _name { get; set; }
+        private string? _name { get; set; }
         public string? Name 
         {
             get

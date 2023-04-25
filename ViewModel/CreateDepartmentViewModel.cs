@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WorkMVVM
 {
     public class CreateDepartmentViewModel : BaseViewModel
     {
         #region Properties    
+        public ObservableCollection<DepartmentViewModel> Departments { get; set; } = MainViewModel.Instance.Departments;
+
         private string _departmentName = string.Empty;
         public string DepartmentName
         {
@@ -22,8 +21,6 @@ namespace WorkMVVM
                 OnPropertyChanged();
             }
         }
-
-        
         private List<Cabinet> _cabinets = new List<Cabinet>();
         public List<Cabinet> LastName
         {
@@ -67,8 +64,8 @@ namespace WorkMVVM
         private void CreateDepartmentAction(object parameter)
         {
             var newDepartment = new DepartmentViewModel();
-            newDepartment.Name = DepartmentName;
-            MainViewModel.Instance.Departments.Add(newDepartment);
+            newDepartment.Name = this.DepartmentName;
+            this.Departments.Add(newDepartment);
             MainViewModel.Instance.DialogService.ShowMessage("Отдел создан");
         }
         #endregion

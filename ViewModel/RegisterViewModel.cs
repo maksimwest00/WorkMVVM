@@ -4,9 +4,6 @@ namespace WorkMVVM
 {
     public class RegisterViewModel : BaseViewModel
     {
-        // Здесь единственное что не очень это SalaryString нужно прогонять Salary через non zero converter
-        // Также при регистрации сотрудника нужно сохранять его в json
-
         #region Properties    
         private string _firstname = string.Empty;
         public string FirstName
@@ -35,6 +32,7 @@ namespace WorkMVVM
                 OnPropertyChanged();
             }
         }
+
         private string _postion = string.Empty;
         public string Position
         {
@@ -62,6 +60,7 @@ namespace WorkMVVM
                 OnPropertyChanged();
             }
         }
+
         private string _department = string.Empty;
         public string DepartmentName
         {

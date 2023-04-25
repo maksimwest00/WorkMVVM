@@ -42,7 +42,14 @@
             <TextBox Text="{Binding NewLastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <TextBox Text="{Binding NewPosition, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <TextBox Text="{Binding NewSalary, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox Text="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <!--<TextBox Text="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"></TextBox>-->
+            <ComboBox ItemsSource="{Binding Departments}" SelectedItem="{Binding NewDepartment}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button Content="Сохранить изменения" Command="{Binding SaveChanges}"/>
         </StackPanel>
     </Grid>

@@ -12,12 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WorkMVVM.View
+namespace WorkMVVM
 {
-    /// <summary>
-    /// Логика взаимодействия для ImportExportWindow.xaml
-    /// </summary>
-    public partial class ImportExportWindow : Window
+    public partial class ImportExportWindow
     {
         public ImportExportWindow()
         {

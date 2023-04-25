@@ -13,7 +13,7 @@
         <local:SalaryEditViewModel/>
     </Window.DataContext>
     <Grid>
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
             <TextBlock Text="Выберите работника для изменения зарплаты"/>
             <ListBox ItemsSource="{Binding CurrentEmployees}" SelectedItem="{Binding SelectedEmployee}">
                 <ListBox.ItemTemplate>

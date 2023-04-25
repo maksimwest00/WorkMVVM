@@ -11,17 +11,18 @@ namespace WorkMVVM
 {
     public class MainViewModel : BaseViewModel
     {
-        #region Services 
-        public IFileService FileService { get; set; }
-        public IDialogService DialogService { get; set; }
-        #endregion
         #region Public Properties
         public ObservableCollection<EmployeeViewModel> Employees { get; set; } = new ObservableCollection<EmployeeViewModel>();
         public ObservableCollection<DepartmentViewModel> Departments { get; set; } = new ObservableCollection<DepartmentViewModel>();
         #endregion
 
-        #region Constructor - Singleton
-        private static MainViewModel _instance;
+        #region Services 
+        public IFileService FileService { get; set; }
+        public IDialogService DialogService { get; set; }
+        #endregion
+
+        #region Constructor
+        private static MainViewModel? _instance;
         public static MainViewModel Instance
         {
             get
@@ -43,54 +44,10 @@ namespace WorkMVVM
             this.OpenCreateDepartmentWindow = new RelayCommand(OpenCreateDepartmentWindowAction, (obj) => true);
             this.OpenEditDepartmentWindow = new RelayCommand(OpenEditDepartmentWindowAction, (obj) => true);
             this.OpenImportExportWindow = new RelayCommand(OpenImportExportWindowAction, (obj) => true);
-
-            // н-р
-            this.Employees.Add(new EmployeeViewModel { FirstName = "Максим", LastName = "Сухарев", Position = "Программист", Salary = 5000, Department = new DepartmentViewModel { Name = "Смарт" } });
-            this.Employees.Add(new EmployeeViewModel { FirstName = "Максим", LastName = "Сухарев", Position = "Программист", Salary = 5000, Department = new DepartmentViewModel { Name = "Смарт" } });
-            this.Employees.Add(new EmployeeViewModel { FirstName = "Максим", LastName = "Сухарев", Position = "Программист", Salary = 5000, Department = new DepartmentViewModel { Name = "Смарт" } });
-            this.Employees.Add(new EmployeeViewModel { FirstName = "Максим", LastName = "Сухарев", Position = "Программист", Salary = 5000, Department = new DepartmentViewModel { Name = "Смарт" } });
-            this.Employees.Add(new EmployeeViewModel { FirstName = "Максим", LastName = "Сухарев", Position = "Программист", Salary = 5000, Department = new DepartmentViewModel { Name = "Смарт" } });
-            //
-            this.Departments.Add(new DepartmentViewModel 
-            { 
-                Name = "Смарт", 
-                Employes = new List<EmployeeViewModel>
-                {
-                    new EmployeeViewModel
-                    {
-                        FirstName = "Максим",
-                        LastName = "Сухарев",
-                        Position = "Программист",
-                        Salary = 30000,
-                        Department = new DepartmentViewModel
-                        {
-                            Name = "Смарт",                       
-                        }
-                    }
-                }
-            });
-            this.Departments.Add(new DepartmentViewModel
-            {
-                Name = "Веб",
-                Employes = new List<EmployeeViewModel>
-                {
-                    new EmployeeViewModel
-                    {
-                        FirstName = "Саня",
-                        LastName = "Крутой",
-                        Position = "Программист",
-                        Salary = 15000,
-                        Department = new DepartmentViewModel
-                        {
-                            Name = "Веб",
-                        }
-                    }
-                }
-            });
         }
         #endregion
 
-        // Переписать команды тк написаны не читабельно без фоди проперти ченджед
+
         #region Commands
         public RelayCommand OpenRegisterWindow { get; set; }
         public RelayCommand OpenCurrentEmployeesWindow { get; set; }
@@ -106,28 +63,24 @@ namespace WorkMVVM
             regwindow.Owner = Application.Current.MainWindow;
             regwindow.ShowDialog();
         }
-
         private void OpenCurrentEmployeesWindowAction(object obj)
         {
             var currentEmployeesWindow = new CurrentEmployeesWindow();
             currentEmployeesWindow.Owner = Application.Current.MainWindow;
             currentEmployeesWindow.ShowDialog();
         }
-
         private void OpenCreateDepartmentWindowAction(object obj)
         {
             var сreateDepartmentWindow = new CreateDepartmentWindow();
             сreateDepartmentWindow.Owner = Application.Current.MainWindow;
             сreateDepartmentWindow.ShowDialog();
         }
-
         private void OpenEditDepartmentWindowAction(object obj)
         {
             var editDepartmentWindow = new EditDepartmentWindow();
             editDepartmentWindow.Owner = Application.Current.MainWindow;
             editDepartmentWindow.ShowDialog();
         }
-
         private void OpenImportExportWindowAction(object obj)
         {
             var importExportWindow = new ImportExportWindow();
@@ -136,24 +89,5 @@ namespace WorkMVVM
         }
         #endregion
 
-        #region Private Methods
-        private void ImportJsonEmployes()
-        {
-            // Здесь читать сотрудников
-            var employes_json_string = File.ReadAllText("");
-
-            List<EmployeeViewModel> employeeViewModel = JsonConvert.DeserializeObject<List<EmployeeViewModel>>(employes_json_string);
-            foreach(var employee in employeeViewModel)
-            {
-                Employees.Add(employee);
-            }
-        }
-
-        public void SaveJson(string filename, List<EmployeeViewModel> eployees)
-        {
-            // filename = path к json
-            File.WriteAllText(filename, JsonConvert.SerializeObject(eployees, Formatting.Indented));
-        }
-        #endregion
     }
 }

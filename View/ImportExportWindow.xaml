@@ -6,13 +6,16 @@
         xmlns:local="clr-namespace:WorkMVVM"
         mc:Ignorable="d"
         Title="ImportExportWindow"
-        Width="Auto"
-        Height="Auto"
+        Width="400"
+        Height="250"
         WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <local:ImportExportViewModel/>
     </Window.DataContext>
     <Grid>
-        
+        <StackPanel VerticalAlignment="Center">
+            <Button Content="Сохранить отделы" Command="{Binding ExportCommand}"/>
+            <Button Content="Загрузить отделы" Command="{Binding ImportCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

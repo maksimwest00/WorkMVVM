@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace WorkMVVM
 {
@@ -11,26 +12,25 @@ namespace WorkMVVM
     {
         #region Properties - Department
         public ObservableCollection<DepartmentViewModel> Departments { get; set; } = MainViewModel.Instance.Departments;
-        private DepartmentViewModel _SelectedDepartment { get; set; }
-        public DepartmentViewModel SelectedDepartment
+
+        private DepartmentViewModel? _SelectedDepartment { get; set; }
+        public DepartmentViewModel? SelectedDepartment
         {
             get { return _SelectedDepartment; }
             set
             {
-                _SelectedEmployee = null;
+                SelectedEmployee = null;
                 ClearBoxes();
                 _SelectedDepartment = value;
-                OnPropertyChanged("SelectedEmployee");
-                OnPropertyChanged("SelectedDepartment");
-                if (_SelectedDepartment is null)
+                if (_SelectedDepartment != null)
                 {
-                    return;
+                    NewDepartmentName = _SelectedDepartment.Name;
+                    //NewDepartment = _SelectedDepartment;
                 }
-                _newDepartmentName = _SelectedDepartment.Name;
-                OnPropertyChanged("NewDepartmentName");
+                OnPropertyChanged();
             }
         }
-        private string _newDepartmentName { get; set; }
+        private string? _newDepartmentName { get; set; }
         public string? NewDepartmentName
         {
             get
@@ -46,28 +46,30 @@ namespace WorkMVVM
         #endregion
 
         #region Properties - Employee
-        private EmployeeViewModel _SelectedEmployee { get; set; }
-        public EmployeeViewModel SelectedEmployee
+        private EmployeeViewModel? _SelectedEmployee { get; set; }
+        public EmployeeViewModel? SelectedEmployee
         {
             get { return _SelectedEmployee; }
             set
             {
                 _SelectedEmployee = value;
-                _newFirstName = _SelectedEmployee.FirstName;
-                _newLastName = _SelectedEmployee.LastName;
-                _newPosition = _SelectedEmployee.Position;
-                _newsalary = _SelectedEmployee.Salary;
-                _newDepartment = _SelectedEmployee.Department.Name;
-                OnPropertyChanged("NewFirstName");
-                OnPropertyChanged("NewLastName");
-                OnPropertyChanged("NewPosition");
-                OnPropertyChanged("NewSalary");
-                OnPropertyChanged("NewDepartment");
-                OnPropertyChanged("SelectedEmployee");
+                if(_SelectedEmployee != null)
+                {
+                    NewFirstName = _SelectedEmployee.FirstName;
+                    NewLastName = _SelectedEmployee.LastName;
+                    NewPosition = _SelectedEmployee.Position;
+                    NewSalary = _SelectedEmployee.Salary;
+                    if(_SelectedEmployee.Department != null)
+                    {
+                        DepartmentViewModel selectedEmployee = Departments.First(x => x.Name == _SelectedEmployee.Department.Name);
+                        NewDepartment = selectedEmployee;
+                    }
+                }
+                OnPropertyChanged();
             }
         }
 
-        private string _newFirstName { get; set; }
+        private string? _newFirstName { get; set; }
         public string? NewFirstName 
         { 
             get 
@@ -80,7 +82,7 @@ namespace WorkMVVM
                 OnPropertyChanged();
             } 
         }
-        private string _newLastName { get; set; }
+        private string? _newLastName { get; set; }
         public string? NewLastName
         {
             get
@@ -94,7 +96,7 @@ namespace WorkMVVM
             }
         }
 
-        private string _newPosition { get; set; }
+        private string? _newPosition { get; set; }
         public string? NewPosition
         {
             get
@@ -122,8 +124,8 @@ namespace WorkMVVM
             }
         }
 
-        private string? _newDepartment { get; set; }
-        public string? NewDepartment
+        private DepartmentViewModel? _newDepartment { get; set; }
+        public DepartmentViewModel? NewDepartment
         {
             get
             {
@@ -135,6 +137,7 @@ namespace WorkMVVM
                 OnPropertyChanged();
             }
         }
+
         #endregion
 
         #region Commands
@@ -151,38 +154,65 @@ namespace WorkMVVM
         #region Command Methods
         private void SaveChangesAction(object obj)
         {
-            this.SelectedDepartment.Name = this.NewDepartmentName;
+            UpdateDepartmentName();
+            UpdateEmployee();
+            UpdateDepartment();
+        }
 
-            this.SelectedEmployee.FirstName = this.NewFirstName;
-            this.SelectedEmployee.LastName = this.NewLastName;
-            this.SelectedEmployee.Position = this.NewPosition;
-            this.SelectedEmployee.Salary = this.NewSalary;
-            this.SelectedEmployee.Department.Name = this.NewDepartment;
+        #endregion
 
+        #region SaveChanges Methods
 
-            if (!(MainViewModel.Instance.Departments.Any(item => item.Name == this.NewDepartment)))
+        private void UpdateDepartmentName()
+        {
+            if (this.NewDepartmentName != null)
             {
-                MainViewModel.Instance.Departments.Add(new DepartmentViewModel
+                this.SelectedDepartment.Name = this.NewDepartmentName;
+                foreach(var emp in this.SelectedDepartment.Employes)
                 {
-                    Name = this.NewDepartment,
-                    Employes = new List<EmployeeViewModel>
+                    emp.Department.Name = this.NewDepartmentName;
+                }
+            }
+            else
+            {
+                MainViewModel.Instance.DialogService.ShowMessage("Нету изменений");
+            }
+        }
+        private void UpdateEmployee()
+        {
+            if(SelectedEmployee != null)
+            {
+                this.SelectedEmployee.FirstName = this.NewFirstName;
+                this.SelectedEmployee.LastName = this.NewLastName;
+                this.SelectedEmployee.Position = this.NewPosition;
+                this.SelectedEmployee.Salary = this.NewSalary;
+            }
+        }
+
+        private void UpdateDepartment()
+        {
+            if(this.SelectedEmployee != null)
+            {
+                if (this.SelectedEmployee.Department != this.NewDepartment)
+                {
+                    foreach (var dep in this.Departments)
                     {
-                        new EmployeeViewModel
+                        if (dep.Name != this.NewDepartment.Name)
                         {
-                            FirstName = this.NewFirstName,
-                            LastName = this.NewLastName,
-                            Position = this.NewPosition,
-                            Salary = this.NewSalary,
-                            Department = new DepartmentViewModel
+                            dep.Employes.Remove(this.SelectedEmployee);
+                        }
+                        if (dep.Name == NewDepartment.Name)
+                        {
+                            var employeesDep = dep.Employes.FirstOrDefault(emp => emp.FirstName == this.SelectedEmployee.FirstName);
+                            if(employeesDep == null)
                             {
-                                Name = this.NewDepartment,
+                                dep.Employes.Add(this.SelectedEmployee);
                             }
                         }
                     }
-                });
+                    this.SelectedEmployee.Department = this.NewDepartment;
+                }
             }
-            FilterCollection();
-            MainViewModel.Instance.DialogService.ShowMessage("Изменения сохранены");
         }
 
         #endregion
@@ -205,11 +235,20 @@ namespace WorkMVVM
             var mutcollection = MainViewModel.Instance.Departments.ToList();
             foreach (DepartmentViewModel department in mutcollection)
             {
-                foreach(EmployeeViewModel employee in department.Employes)
+                var mutcoll = new List<EmployeeViewModel>(department.Employes);
+                foreach(EmployeeViewModel employee in mutcoll)
                 {
                     if(employee.Department.Name != department.Name)
                     {
-                        MainViewModel.Instance.Departments.Remove(department);
+                        department.Employes.Remove(employee);
+                    }
+                    else
+                    {
+                        var a = department.Employes.Contains(employee);
+                        department.Employes.Add(employee);
+                        if (!department.Employes.Contains(employee))
+                        {
+                        }
                     }
                 }
             }

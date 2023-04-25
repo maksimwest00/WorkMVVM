@@ -10,7 +10,7 @@
     <Window.DataContext>
         <local:CurrentEmployeesViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

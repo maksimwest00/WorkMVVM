@@ -8,8 +8,8 @@ namespace WorkMVVM
     {
         #region Public Properties
         public ObservableCollection<EmployeeViewModel> CurrentEmployees { get; set; } = MainViewModel.Instance.Employees;
-        private EmployeeViewModel _SelectedEmployee { get; set; }
-        public EmployeeViewModel SelectedEmployee
+        private EmployeeViewModel? _SelectedEmployee { get; set; }
+        public EmployeeViewModel? SelectedEmployee
         {
             get { return _SelectedEmployee; }
             set

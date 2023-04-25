@@ -10,15 +10,11 @@
         DataContext="{Binding Source={x:Static local:MainViewModel.Instance}}">
     <Grid>
         <StackPanel Orientation="Vertical" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Регистрация сотрудника (COMPLETE)" Command="{Binding OpenRegisterWindow}"/>
-            <Button Content="Просмотр текущих сотрудников (COMPLETE)" Command="{Binding OpenCurrentEmployeesWindow}"/>
-
-            <Button Content="Окно создания отдела (COMPLETE)" Command="{Binding OpenCreateDepartmentWindow}"/>
-            <Button Content="Окно редактирования названия и списка сотрудников отдела (COMPLETE)" Command="{Binding OpenEditDepartmentWindow}"/>
-            <Button Content="Окно выгрузки/загрузки списка отделов со всеми полями на жесткий диск. сериализация - Json (NO COMPLETE)" Command="{Binding OpenEditDepartmentWindow}"/>
-            
-            <!--<Button Content="Окно редактирования зарплаты (NO COMPLETE)" Width="Auto" Height="50" Command="{Binding OpenRegisterWindow}"/>
-            <Button Content="Окно редактирования должности (NO COMPLETE)" Width="Auto" Height="50" Command="{Binding OpenRegisterWindow}"/>-->
+            <Button Content="Регистрация сотрудника" Command="{Binding OpenRegisterWindow}"/>
+            <Button Content="Просмотр текущих сотрудников" Command="{Binding OpenCurrentEmployeesWindow}"/>
+            <Button Content="Окно создания отдела" Command="{Binding OpenCreateDepartmentWindow}"/>
+            <Button Content="Окно редактирования названия и списка сотрудников отдела" Command="{Binding OpenEditDepartmentWindow}"/>
+            <Button Content="Окно выгрузки/загрузки списка отделов" Command="{Binding OpenImportExportWindow}"/>
         </StackPanel>
     </Grid>
 </Window>

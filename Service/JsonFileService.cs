@@ -13,9 +13,9 @@ namespace WorkMVVM
             return accounts;
         }
 
-        public void Save<T>(string filename, List<T> accountsList)
+        public void Save<T>(string filename, List<T> list)
         {
-            File.WriteAllText(filename, JsonConvert.SerializeObject(accountsList, Formatting.Indented));
+            File.WriteAllText(filename, JsonConvert.SerializeObject(list, Formatting.Indented));
         }
     }
 }

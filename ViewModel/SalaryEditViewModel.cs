@@ -6,16 +6,15 @@ namespace WorkMVVM
     {
         #region Public Properties
         public ObservableCollection<EmployeeViewModel> CurrentEmployees { get; set; } = MainViewModel.Instance.Employees;
-        private EmployeeViewModel _SelectedEmployee { get; set; }
-        public EmployeeViewModel SelectedEmployee
+        private EmployeeViewModel? _SelectedEmployee { get; set; }
+        public EmployeeViewModel? SelectedEmployee
         {
             get { return _SelectedEmployee; }
             set
             {
                 _SelectedEmployee = value;
-                _newsalary = _SelectedEmployee.Salary;
-                OnPropertyChanged("SelectedEmployee");
-                OnPropertyChanged("NewSalary");
+                NewSalary = _SelectedEmployee?.Salary;
+                OnPropertyChanged();
             }
         }
 
@@ -41,14 +40,15 @@ namespace WorkMVVM
         #region Constructor
         public SalaryEditViewModel()
         {
-            UpdateSalary = new RelayCommand(UpdateSalaryAction, (obj) => true);
+            this.UpdateSalary = new RelayCommand(UpdateSalaryAction, (obj) => true);
         }
         #endregion
 
         #region Command Methods
         private void UpdateSalaryAction(object obj)
         {
-            SelectedEmployee.Salary = NewSalary;
+            if (this.SelectedEmployee is null) return;
+            this.SelectedEmployee.Salary = this.NewSalary;
             MainViewModel.Instance.DialogService.ShowMessage("Зарплата изменена");
         }
         #endregion

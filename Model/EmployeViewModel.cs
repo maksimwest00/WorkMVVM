@@ -1,14 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WorkMVVM
+﻿namespace WorkMVVM
 {
     public class EmployeeViewModel : BaseViewModel
     {
-        private string _firstname { get; set; }
-        public string? FirstName 
+        private string? _firstname { get; set; }
+        public string? FirstName
         {
             get
             {
@@ -18,23 +13,23 @@ namespace WorkMVVM
             {
                 _firstname = value;
                 OnPropertyChanged();
-            } 
+            }
         }
-        private string _lastname { get; set; }
-        public string? LastName 
-        { 
+        private string? _lastname { get; set; }
+        public string? LastName
+        {
             get
             {
                 return _lastname;
             }
             set
             {
-                _lastname = value; 
+                _lastname = value;
                 OnPropertyChanged();
             }
         }
-        private string _position { get; set; }
-        public string? Position 
+        private string? _position { get; set; }
+        public string? Position
         {
             get
             {
@@ -47,7 +42,7 @@ namespace WorkMVVM
             }
         }
         private int? _salary { get; set; }
-        public int? Salary 
+        public int? Salary
         {
             get
             {
@@ -57,7 +52,7 @@ namespace WorkMVVM
             {
                 _salary = value;
                 OnPropertyChanged();
-            } 
+            }
         }
         public DepartmentViewModel? Department { get; set; }
     }
