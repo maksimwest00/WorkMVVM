@@ -228,31 +228,5 @@ namespace WorkMVVM
             this.NewDepartment = null;
         }
         #endregion
-
-        #region Department Filter
-        public void FilterCollection()
-        {
-            var mutcollection = MainViewModel.Instance.Departments.ToList();
-            foreach (DepartmentViewModel department in mutcollection)
-            {
-                var mutcoll = new List<EmployeeViewModel>(department.Employes);
-                foreach(EmployeeViewModel employee in mutcoll)
-                {
-                    if(employee.Department.Name != department.Name)
-                    {
-                        department.Employes.Remove(employee);
-                    }
-                    else
-                    {
-                        var a = department.Employes.Contains(employee);
-                        department.Employes.Add(employee);
-                        if (!department.Employes.Contains(employee))
-                        {
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
     }
 }

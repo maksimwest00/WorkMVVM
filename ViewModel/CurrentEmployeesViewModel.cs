@@ -28,8 +28,8 @@ namespace WorkMVVM
         #region Constructor
         public CurrentEmployeesViewModel()
         {
-            OpenSalaryEditWindow = new RelayCommand(OpenSalaryEditWindowAction, (obj) => true);
-            OpenDepartmentEditWindow = new RelayCommand(OpenDepartmentEditWindowAction, (obj) => true);
+            this.OpenSalaryEditWindow = new RelayCommand(OpenSalaryEditWindowAction, (obj) => true);
+            this.OpenDepartmentEditWindow = new RelayCommand(OpenDepartmentEditWindowAction, (obj) => true);
         }
         #endregion
 

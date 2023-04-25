@@ -83,7 +83,7 @@ namespace WorkMVVM
         #region Constructor    
         public RegisterViewModel()
         {
-            RegisterEmployee = new RelayCommand(RegisterEmployeeAction, (obj) => true);
+            this.RegisterEmployee = new RelayCommand(RegisterEmployeeAction, (obj) => true);
         }
         #endregion
 
